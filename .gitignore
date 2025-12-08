@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Sensitive Documents - DO NOT COMMIT
+Docs/
+*.docx
+*.pdf
+*.xlsx
+VOICE_AGENT_MVP_PLAN.md
+check_data.py
+extract_codebook.py
+
+# API Keys and Secrets
+.env
+config.py
+secrets.py
+*_key.txt
+*_secret.txt
+
+# Trained Models (too large for GitHub)
+trained_models/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Logs
+*.log
+terminals/
+
+# Testing
+test_analyzers.py
+requirements_training.txt
+
