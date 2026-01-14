@@ -12,32 +12,39 @@ from typing import List, Dict, Tuple
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 class TrainedAnalyzer:
-    def __init__(self, model_path: str = './trained_models/final_model'):
+    def __init__(self, model_name: str = 'Elyasirankhah/patient-voice-biobert', hf_token: str = None):
         """
-        Initialize analyzer with trained model
+        Initialize analyzer with trained model from Hugging Face
         
         Args:
-            model_path: Path to the trained model directory
+            model_name: Hugging Face model repository name
+            hf_token: Hugging Face API token (for private models)
         """
-        self.model_path = Path(model_path)
+        self.model_name = model_name
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
-        print(f"Loading trained model from {model_path}...")
+        # Get HF token from environment if not provided
+        import os
+        hf_token = hf_token or os.getenv('HF_TOKEN')
         
-        # Load model and tokenizer
-        self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
-        self.model = AutoModelForSequenceClassification.from_pretrained(self.model_path)
+        print(f"Loading trained model from Hugging Face: {model_name}...")
+        
+        # Load model and tokenizer from Hugging Face
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
+        self.model = AutoModelForSequenceClassification.from_pretrained(model_name, token=hf_token)
         self.model.to(self.device)
         self.model.eval()
         
-        # Load label mappings
-        with open(self.model_path / 'label_mappings.json', 'r') as f:
+        # Load label mappings from Hugging Face
+        from huggingface_hub import hf_hub_download
+        label_path = hf_hub_download(repo_id=model_name, filename="label_mappings.json", token=hf_token)
+        with open(label_path, 'r') as f:
             mappings = json.load(f)
             self.label2id = mappings['label2id']
             self.id2label = {int(k): v for k, v in mappings['id2label'].items()}
             self.num_labels = mappings['num_labels']
         
-        print(f"✅ Model loaded ({self.num_labels} categories)")
+        print(f"✅ Model loaded from Hugging Face ({self.num_labels} categories)")
     
     def analyze(self, text: str, top_k: int = 3, confidence_threshold: float = 0.5) -> Tuple[List[Dict], List[Dict]]:
         """

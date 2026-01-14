@@ -25,6 +25,7 @@ wheels/
 
 # Sensitive Documents - DO NOT COMMIT
 Docs/
+data/
 *.docx
 *.pdf
 *.xlsx
@@ -64,4 +65,8 @@ terminals/
 # Testing
 test_analyzers.py
 requirements_training.txt
+
+# Streamlit secrets (local)
+.streamlit/secrets.toml
+streamlit_secrets_template.toml
 
