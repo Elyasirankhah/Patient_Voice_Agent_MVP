@@ -65,6 +65,9 @@ terminals/
 # Testing
 test_analyzers.py
 requirements_training.txt
+sample_conversation.json
+test_conversation.json
+*.json
 
 # Streamlit secrets (local)
 .streamlit/secrets.toml
